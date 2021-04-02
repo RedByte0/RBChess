@@ -1,10 +1,8 @@
-#include "./headers/board.hpp"
-#include "./headers/board_ui.hpp"
+#include "./headers/board_printer.hpp"
 
 int main() {
-	board newBoard;
-	board_ui ui(&newBoard);
-	ui.print();
-
+	board_printer printer;
+	
+	printer();
 	return 0;
 }
