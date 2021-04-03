@@ -1,11 +1,7 @@
-#include "./headers/board_printer.hpp"
-#include "./headers/pawn.hpp"
+#include "./headers/interactive_layer.hpp"
 
 int main() {
-	std::shared_ptr<piece> ptr_piece(new pawn(10,false));
-	board::instance()->add_piece(ptr_piece);
-	board_printer printer;
-	
-	printer();
+	interactive_layer game;
+	game.start_game();	
 	return 0;
 }

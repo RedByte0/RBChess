@@ -1,7 +1,7 @@
 CC=g++
 FLAGS=-Wall -Wextra -pedantic -c -g -std=c++17 -O0 -e -j10
 
-output: main.o board.o board_printer.o piece.o pawn.o
+output: main.o board.o board_printer.o piece.o pawn.o interactive_layer.o command_interpreter.o command.o
 	g++ *.o -o RBChess
 
 main.o: main.cpp
@@ -18,6 +18,17 @@ piece.o: ./class_implementations/piece.cpp ./headers/piece.hpp
 
 pawn.o: ./class_implementations/pawn.cpp ./headers/pawn.hpp	
 	$(CC) ./class_implementations/pawn.cpp $(FLAGS)
+
+interactive_layer.o: ./class_implementations/interactive_layer.cpp ./headers/interactive_layer.hpp	
+	$(CC) ./class_implementations/interactive_layer.cpp $(FLAGS)
+
+command_interpreter.o: ./class_implementations/command_interpreter.cpp ./headers/command_interpreter.hpp	
+	$(CC) ./class_implementations/command_interpreter.cpp $(FLAGS)
+
+command.o: ./class_implementations/command.cpp ./headers/command.hpp	
+	$(CC) ./class_implementations/command.cpp $(FLAGS)
+
+
 
 clean:
 	rm *.o RBChess
