@@ -24,10 +24,21 @@ public:
 	piece();
 	piece(int position, bool team);
 	virtual ~piece() = 0;
+	
+	/* all of the pieces share an static instances of
+	 * the board class, board is a singleton and board::instance()
+	 * can be called from any point within the program
+	 * so I think that it is fine to leave this as public*/
+	static std::shared_ptr<board> board_ptr;
 
 	bool team() const {return _team;}
 	unsigned int position() const {return _position;}
 	bool moved() const {return _moved;}
+
+	/* moves the piece to a new position. It is important to know
+	 * that this method does not check if the new poisition is 
+	 * a valid one or not, that should be checked before calling this method*/
+	virtual void move(unsigned int position);
 
 	//the visual representation of a piece when printed
 	virtual const char* icon() const {return nullptr;}

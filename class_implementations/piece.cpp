@@ -1,5 +1,7 @@
 #include "../headers/piece.hpp"
 
+std::shared_ptr<board> piece::board_ptr = board::instance();
+
 piece::piece() {
 	_position = 0;
 	_team = false;
@@ -13,4 +15,10 @@ piece::piece(int position, bool team) {
 }
 
 piece::~piece() {
+}
+
+void piece::move(unsigned int position) {
+	if(!_moved)
+		_moved = true;
+	_position = position;
 }

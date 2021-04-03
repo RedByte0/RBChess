@@ -2,7 +2,7 @@
 
 board::board() {
 	_team = true;
-	_pieces = std::vector<piece*>();
+	_pieces = std::vector<std::shared_ptr<piece>>();
 }
 
 bool board::there_is_a_piece_at(unsigned int position) const {
@@ -23,7 +23,7 @@ bool board::there_is_a_piece_at(unsigned int position, bool team) const {
 	return false;
 }
 
-piece* board::operator[](unsigned int position) {
+std::shared_ptr<piece> board::operator[](unsigned int position) {
 	for(std::size_t i = 0; i < _pieces.size(); i++) {
 		if(_pieces[i]->position() == position)
 			return _pieces[i];
@@ -31,7 +31,7 @@ piece* board::operator[](unsigned int position) {
 	return nullptr;
 }
 
-const piece* board::operator[](unsigned int position) const {
+const std::shared_ptr<piece> board::operator[](unsigned int position) const {
 	for(std::size_t i = 0; i < _pieces.size(); i++) {
 		if(_pieces[i]->position() == position)
 			return _pieces[i];

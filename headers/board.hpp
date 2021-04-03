@@ -17,7 +17,7 @@ class piece;
 class board {
 private:
 	//all of the pieces that are currently on the board
-	std::vector<piece*> _pieces;
+	std::vector<std::shared_ptr<piece>> _pieces;
 	bool _team; //true = white and false = black
 
 	//this is a singleton so the constructor is private
@@ -41,7 +41,7 @@ public:
 	unsigned int columns() const {return 8;}
 	bool team() const {return _team;} 
 	unsigned int size() const {return rows() * columns();}
-	void add_piece(piece* p) {_pieces.push_back(p);}
+	void add_piece(std::shared_ptr<piece> p) {_pieces.push_back(std::move(p));}
 
 	//a simple check to see if a given position is a valid position inside the board
 	inline bool position_out_of_bounds(unsigned int position) const {
@@ -63,8 +63,8 @@ public:
 	 * the position given to the operator IS NOT the position of the piece
 	 * inside the _pieces vector instead it looks for  the value _position 
 	 * of the piece*/
-	piece* operator[](unsigned int position);
-	const piece* operator[](unsigned int position) const;
+	std::shared_ptr<piece> operator[](unsigned int position);
+	const std::shared_ptr<piece> operator[](unsigned int position) const;
 };
 
 #endif
