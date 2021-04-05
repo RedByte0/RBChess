@@ -1,7 +1,7 @@
 #include "./headers/interactive_layer.hpp"
 
 int main() {
-	interactive_layer game;
-	game.start_game();	
+	std::shared_ptr<interactive_layer> game = interactive_layer::instance();
+	game->start_game();	
 	return 0;
 }
