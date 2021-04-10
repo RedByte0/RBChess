@@ -3,15 +3,22 @@
 
 #include "command.hpp"
 #include <string>
+#include <vector>
+#include "algebraic_notation_converter.hpp"
 
 class command;
 
 /* this class reads, interprets and executes game commands*/
 class command_interpreter {
 private:
-	const char* _error_messages[1];
+	algebraic_notation_converter _algebraic_converter;
+	const char* _error_messages[2];
 	command* _commands;
-	const int _NUMBER_OF_COMMANDS = 2;
+	const int _NUMBER_OF_COMMANDS = 3;
+
+	/* store the last command ans its parameters
+	 * this is used by the cmmd methods to read the parameters*/
+	std::vector<std::string> _last_command;
 public:
 	command_interpreter();
 	//I am fine with using raw pointers if there is not any memory allocation happening
@@ -31,12 +38,19 @@ public:
 
 	/* compares the command_str with the commands inside the _commands array
 	 * and if any of then matches it will return its index*/
-	int find_command(std::string& command_str, bool& valid_command) const; 
+	command* find_command(std::string& command_str) const;
+       
+	/* when the user enters a command it can have parameters so the command and
+	 * the parameters have to be separated, the ' ' char is used as a the divider*/	
+	std::vector<std::string> command_to_parameter_vector(const std::string& user_command) const;
 
+//	int extract_parameters_from_commands
 
 	/*all the methods with the cmmd prefix can be accesed by a command*/
 	void cmmd_help(); //display all commands
 	void cmmd_quit(); //quit program
+	
+	void cmmd_kill(); //kill a given piece  : debug
 };
 
 #endif

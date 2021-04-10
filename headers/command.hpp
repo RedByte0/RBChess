@@ -5,6 +5,7 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 
 class command_interpreter;
 
@@ -30,7 +31,10 @@ public:
 
 	void execute(command_interpreter* interpreter);
 
+	/*compare str with _identifier_char and _identifier_str*/
 	bool operator==(const std::string& str) const;
+	/*compare num_parameters with _number_of_parameters*/
+	bool operator==(const int num_parameters) const;
 	friend std::ostream& operator<<(std::ostream& os, const command& com);	
 
 	//this class can't be copied, moved or assigned

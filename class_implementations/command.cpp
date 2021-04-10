@@ -20,6 +20,10 @@ bool command::operator==(const std::string& str) const {
 		return str == _identifier_str;
 }
 
+bool command::operator==(const int num_parameters) const {
+	return _number_of_parameters == num_parameters;
+}
+
 std::ostream& operator<<(std::ostream& os, const command& com) {
 	os << com._identifier_char << ": " << com._identifier_str << std::endl
 		<< "\thelp: " << com._help_message << std::endl
