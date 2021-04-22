@@ -1,7 +1,7 @@
 CC=g++
 FLAGS=-Wall -Wextra -pedantic -c -g -std=c++17 -O0 -e -j10
 
-output: main.o board.o board_printer.o piece.o pawn.o interactive_layer.o command_interpreter.o command.o algebraic_notation_converter.o
+output: main.o board.o board_printer.o piece.o pawn.o interactive_layer.o command_interpreter.o command.o algebraic_notation.o
 	g++ *.o -o RBChess
 
 main.o: main.cpp
@@ -28,8 +28,8 @@ command_interpreter.o: ./class_implementations/command_interpreter.cpp ./headers
 command.o: ./class_implementations/command.cpp ./headers/command.hpp	
 	$(CC) ./class_implementations/command.cpp $(FLAGS)
 
-algebraic_notation_converter.o: ./class_implementations/algebraic_notation_converter.cpp ./headers/algebraic_notation_converter.hpp
-	$(CC) ./class_implementations/algebraic_notation_converter.cpp $(FLAGS)
+algebraic_notation.o: ./class_implementations/algebraic_notation.cpp ./headers/algebraic_notation.hpp
+	$(CC) ./class_implementations/algebraic_notation.cpp $(FLAGS)
 
 clean:
 	rm *.o RBChess

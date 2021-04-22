@@ -37,17 +37,27 @@ void command_interpreter::print_error_message(int msg) const {
 	std::cin.get();
 }
 
+
+/* the command_str parameter contains the name of the command and the parameters of the command*/
 void command_interpreter::execute_command(std::string& command_str) {
+	//the command is split into a vector of strings
 	_last_command = std::move(command_to_parameter_vector(command_str));
+	
 	//the first parameter is the _identifier_char or the _identifier_str of the command
 	command* command_ptr = find_command(_last_command[0]);
-	_last_command.pop_back(); //remove the 
+	
+	//since we already have a pointer to the command the command _identifier is not needed anymore
+	_last_command.erase(_last_command.begin());
 
-
+	//if the pointer is null it means the given _identifier is not a valid one
 	if(command_ptr == nullptr) {
 		print_error_message(0);
 	}
+	//compares the number of elements of the vector with the number of parameters that the command can take
 	else if ((*command_ptr) == _last_command.size()) {
+		//this is a bit confusing, the _function hold by the command is a pointer to a function
+		//from the command_interpreter class, so in order to execute the _function from the command
+		//an instance of command_interpreter is required
 		command_ptr->execute(this);
 	}
 	else {
@@ -55,7 +65,9 @@ void command_interpreter::execute_command(std::string& command_str) {
 	}
 }
 
-/*I dont like the method returning 0*/
+/* compares a given string with all the commands and if it 
+ * finds a command that matches it returns a pointer to it, 
+ * if not returns nullptr*/
 command* command_interpreter::find_command(std::string& command_str) const {
 	for(int i = 0; i < _NUMBER_OF_COMMANDS; i++) {
 		if(_commands[i] == command_str)
@@ -91,4 +103,6 @@ void command_interpreter::cmmd_quit() {
 }
 
 void command_interpreter::cmmd_kill() {
+	if(_algebraic_converter == _last_command[0]) {
+	}	
 }

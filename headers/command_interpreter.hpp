@@ -4,14 +4,14 @@
 #include "command.hpp"
 #include <string>
 #include <vector>
-#include "algebraic_notation_converter.hpp"
+#include "algebraic_notation.hpp"
 
 class command;
 
 /* this class reads, interprets and executes game commands*/
 class command_interpreter {
 private:
-	algebraic_notation_converter _algebraic_converter;
+	algebraic_notation _algebraic_converter;
 	const char* _error_messages[2];
 	command* _commands;
 	const int _NUMBER_OF_COMMANDS = 3;
