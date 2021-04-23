@@ -35,7 +35,7 @@ void board_printer::print_row(bool team, int row, int& board_position) const {
 			print_square_row_with_piece(team, board_position);
 		else
 		print_square_row(team);	
-		std::cout << std::endl;
+		std::cout << '\n';
 	}
 
 }
@@ -54,7 +54,7 @@ void board_printer::print_square_row_with_row_number(bool team, int row) const {
 	print_row_number(row, false);
 	print_square_row(team);
 	print_row_number(row, true);
-	std::cout << std::endl;
+	std::cout << '\n';
 }
 
 void board_printer::print_square_row_with_piece(bool team, int& board_position) const {
@@ -91,7 +91,7 @@ void board_printer::print_column_letters() const {
 			std::cout << ' ';
 		}
 	}
-	std::cout << std::endl;
+	std::cout << '\n';
 }
 
 /* the number of the row is displayed on the first row of each square and is showed
