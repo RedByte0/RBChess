@@ -33,3 +33,4 @@ algebraic_notation.o: ./class_implementations/algebraic_notation.cpp ./headers/a
 
 clean:
 	rm *.o RBChess
+	clear

@@ -13,6 +13,7 @@ void command::execute(command_interpreter* interpreter) {
 	(*interpreter.*_function)();
 }
 
+
 bool command::operator==(const std::string& str) const {
 	if(str.length() == 1)
 		return str[0] == _identifier_char; 

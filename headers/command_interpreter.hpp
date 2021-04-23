@@ -5,16 +5,17 @@
 #include <string>
 #include <vector>
 #include "algebraic_notation.hpp"
+#include "board.hpp"
 
 class command;
 
 /* this class reads, interprets and executes game commands*/
 class command_interpreter {
 private:
+	std::shared_ptr<board> _board;
 	algebraic_notation _algebraic_converter;
-	const char* _error_messages[2];
+	const int _NUMBER_OF_COMMANDS;
 	command* _commands;
-	const int _NUMBER_OF_COMMANDS = 3;
 
 	/* store the last command ans its parameters
 	 * this is used by the cmmd methods to read the parameters*/
@@ -30,7 +31,7 @@ public:
 	bool wait_for_command();
 	int number_of_commands() const {return _NUMBER_OF_COMMANDS;}
 
-	void print_error_message(int msg) const;
+	void print_error_message(const char* msg) const;
 
 	/* it tries to execute the command given by the player and does all sort
 	 * of error checking */	
@@ -51,6 +52,7 @@ public:
 	void cmmd_quit(); //quit program
 	
 	void cmmd_kill(); //kill a given piece  : debug
+	void cmmd_move(); //move one piece to a new location
 };
 
 #endif

@@ -23,6 +23,16 @@ bool board::there_is_a_piece_at(unsigned int position, bool team) const {
 	return false;
 }
 
+bool board::delete_piece(unsigned int position) {
+	for(std::size_t i = 0; i < _pieces.size(); i++) {
+		if(_pieces[i]->position() == position) {
+			_pieces.erase(_pieces.begin() + i);
+			return true;
+		}
+	}
+	return false;
+}
+
 std::shared_ptr<piece> board::operator[](unsigned int position) {
 	for(std::size_t i = 0; i < _pieces.size(); i++) {
 		if(_pieces[i]->position() == position)

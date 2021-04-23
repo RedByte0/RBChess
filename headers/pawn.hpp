@@ -7,7 +7,7 @@ class pawn : public piece {
 private:
 
 	/* when a pawn reaches the end of the board
-	 * it can be promoted into another piece*/	
+	 * it can be promoted into another piece*/
 	void promote();
 public:
 	pawn(int position, bool team);
@@ -15,7 +15,7 @@ public:
 
 	void move(unsigned int position) override; 
 	const char* icon() const override;
-	std::vector<unsigned int> possible_movements() const override;	
+	std::vector<unsigned int> possible_movements() const override;
 };
 
 

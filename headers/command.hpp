@@ -28,6 +28,14 @@ private:
 public:
 	command(const char ch, const std::string str, const char* help, const char* example, const int num_parameters, void(command_interpreter::* func)());
 	~command();
+	
+
+	command() = delete;
+	command(const command& com) = delete; 
+	command(const command&& com) = delete;
+	command& operator=(const command& com) = delete; 
+	command& operator=(const command&& com) = delete;
+	
 
 	void execute(command_interpreter* interpreter);
 
@@ -36,13 +44,6 @@ public:
 	/*compare num_parameters with _number_of_parameters*/
 	bool operator==(const int num_parameters) const;
 	friend std::ostream& operator<<(std::ostream& os, const command& com);	
-
-	//this class can't be copied, moved or assigned
-	command() = delete;
-	command(const command& com) = delete;
-	command(const command&& com) = delete;
-	command& operator=(const command& com) = delete;
-	command& operator=(const command&& com) = delete;
 
 };
 

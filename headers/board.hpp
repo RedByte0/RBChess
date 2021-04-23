@@ -27,7 +27,12 @@ public:
 	board(const board& b) = delete;
 	board(const board&& b) = delete;
 	board& operator=(const board&) = delete;
-       	board& operator=(const board&& b) = delete;	
+	board& operator=(const board&& b) = delete;
+
+	//load a vector of pieces
+	void initialize_pieces(std::vector<std::shared_ptr<piece>>& pieces) {
+		_pieces = std::move(pieces);
+	}
 
 	/* returns a shared pointer to the only instance of this class.
 	 * I decided to make this inline because is used all over the program
@@ -58,6 +63,10 @@ public:
 	bool there_is_a_piece_at(unsigned int position) const;
 	//same as the one above but it only looks for pieces with the same _team as the team parameter
 	bool there_is_a_piece_at(unsigned int position, bool team) const;
+
+	/* finds and deletes the piece at the given position, if the piece is not found returns false,
+	 * true otherwise*/
+	bool delete_piece(unsigned int position);
 
 	/* it is possible to get a piece from the board using the [] operator.
 	 * the position given to the operator IS NOT the position of the piece

@@ -4,13 +4,13 @@
 #include <iostream>
 #include <string>
 
-command_interpreter::command_interpreter() {
-	_error_messages[0] = {"Invalid command"};
-       	_error_messages[1] = {"Invalid number of arguments"};
-	_commands = new command[3] {
+command_interpreter::command_interpreter() : _NUMBER_OF_COMMANDS(4) {
+	_board = board::instance();
+	_commands = new command[4] {
 		{'h', "help", "this command displays all the available commands and how to use them", "h", 0, &command_interpreter::cmmd_help},
 		{'q', "quit", "quit the game", "q", 0, &command_interpreter::cmmd_quit},
-		{'k', "kill", "kill the piece at the given position", "k a8", 1, &command_interpreter::cmmd_kill}
+		{'k', "kill", "kill the piece at the given position", "k a8", 1, &command_interpreter::cmmd_kill},
+		{'m', "move", "move one piece to a new location", "m a7 a5", 2, &command_interpreter::cmmd_move}
 	};
 }
 
@@ -32,8 +32,8 @@ bool command_interpreter::wait_for_command() {
 	return false;
 }
 
-void command_interpreter::print_error_message(int msg) const {
-	std::cout << _error_messages[msg] << ", use h to display the help menu...";
+void command_interpreter::print_error_message(const char* msg) const {
+	std::cout << msg << ", use h to display the help menu...";
 	std::cin.get();
 }
 
@@ -51,7 +51,7 @@ void command_interpreter::execute_command(std::string& command_str) {
 
 	//if the pointer is null it means the given _identifier is not a valid one
 	if(command_ptr == nullptr) {
-		print_error_message(0);
+		print_error_message("Invalid command");
 	}
 	//compares the number of elements of the vector with the number of parameters that the command can take
 	else if ((*command_ptr) == _last_command.size()) {
@@ -61,7 +61,7 @@ void command_interpreter::execute_command(std::string& command_str) {
 		command_ptr->execute(this);
 	}
 	else {
-		print_error_message(1);
+		print_error_message("Invalid number of arguments");
 	}
 }
 
@@ -104,5 +104,12 @@ void command_interpreter::cmmd_quit() {
 
 void command_interpreter::cmmd_kill() {
 	if(_algebraic_converter == _last_command[0]) {
-	}	
+		int position = _algebraic_converter(_last_command[0]);
+		if(_board->delete_piece(position) == false)
+			print_error_message("There is not a piece at the given position");
+	}
+}
+
+void command_interpreter::cmmd_move() {
+	std::cout << "hello" << std::endl;
 }
