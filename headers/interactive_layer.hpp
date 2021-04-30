@@ -24,8 +24,8 @@ public:
 		return inst;
 	}
 
-	/* this is the main game loop of the game
-	 * and it should keep running until _run_game is false*/
+	/* this is the main loop of the game
+	 * and it should keep running until _run_game is set to false*/
 	void start_game();
 
 	void quit_game() {_run_game = false;}

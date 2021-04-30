@@ -17,24 +17,24 @@ private:
 	const int _NUMBER_OF_COMMANDS;
 	command* _commands;
 
-	/* store the last command ans its parameters
-	 * this is used by the cmmd methods to read the parameters*/
-	std::vector<std::string> _last_command;
+	/* stores the arguments that the user entered if any
+	 * alongside the last command*/
+	std::vector<std::string> _last_command_args;
 public:
 	command_interpreter();
-	//I am fine with using raw pointers if there is not any memory allocation happening
 	~command_interpreter();
 
 	/* calls cin >> and waits until the user inserts a command
 	 * if it is a valid command it will be executed by this same function
-	 * and true will be returned if is not a valid command it will just return false*/
+	 * and true will be returned, if is not a valid command it will just return false*/
 	bool wait_for_command();
 	int number_of_commands() const {return _NUMBER_OF_COMMANDS;}
 
 	void print_error_message(const char* msg) const;
+	void print_error_message(const std::string msg) const;
 
 	/* it tries to execute the command given by the player and does all sort
-	 * of error checking */	
+	 * of error checking */
 	void execute_command(std::string& command_str);
 
 	/* compares the command_str with the commands inside the _commands array
@@ -42,10 +42,8 @@ public:
 	command* find_command(std::string& command_str) const;
        
 	/* when the user enters a command it can have parameters so the command and
-	 * the parameters have to be separated, the ' ' char is used as a the divider*/	
+	 * the parameters have to be separated, the ' ' char is used as a the divider*/
 	std::vector<std::string> command_to_parameter_vector(const std::string& user_command) const;
-
-//	int extract_parameters_from_commands
 
 	/*all the methods with the cmmd prefix can be accesed by a command*/
 	void cmmd_help(); //display all commands

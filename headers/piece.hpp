@@ -44,6 +44,8 @@ public:
 	virtual const char* icon() const {return nullptr;}
 	//returns a vector with all the possible movements that a piece can make
 	virtual std::vector<unsigned int> possible_movements() const {return std::move(std::vector<unsigned int>());}
+	//cheks if the given position is part of the vector returned by possible_movements
+	bool valid_move(unsigned int position);
 };
 
 #endif

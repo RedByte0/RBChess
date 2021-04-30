@@ -23,7 +23,8 @@ private:
 	* or I could create two variables min and max*/
 	const int _number_of_parameters;
 
-	/* every command is related to a method from command_interpreter*/
+	/* every command is related to a method from command_interpreter
+	 * i must admit that this is a bit weird*/
 	void(command_interpreter::* _function)();
 public:
 	command(const char ch, const std::string str, const char* help, const char* example, const int num_parameters, void(command_interpreter::* func)());

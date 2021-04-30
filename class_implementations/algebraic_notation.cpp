@@ -15,7 +15,8 @@ int algebraic_notation::operator()(const std::string& algebraic_notation) const 
 	return ((int)std::tolower(algebraic_notation[0]) - 97) + ((int)algebraic_notation[1] - 49) * board::instance()->rows();	
 }
 
-bool algebraic_notation::operator==(const std::string& str) const {
+/*cheks if a given string is valid algebraic notation*/
+bool algebraic_notation::validate(const std::string& str) const {
 	if(str.length() != 2)
 		return false;
 	int ch = int(str[0]);
@@ -31,5 +32,14 @@ bool algebraic_notation::operator==(const std::string& str) const {
 	if(num < 49 || num > 57)
 		return false;
 
+	return true;
+}
+
+/*same deal as in validate(string) but for a whole vector of strings*/
+bool algebraic_notation::validate(const std::vector<std::string>& str_vector) const {
+	for(std::string str : str_vector) {
+		if(validate(str) == false)
+			return false;
+	}
 	return true;
 }
