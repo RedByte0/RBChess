@@ -28,7 +28,7 @@ public:
 	 * if it is a valid command it will be executed by this same function
 	 * and true will be returned, if is not a valid command it will just return false*/
 	bool wait_for_command();
-	int number_of_commands() const {return _NUMBER_OF_COMMANDS;}
+	int number_of_commands() const { return _NUMBER_OF_COMMANDS; }
 
 	void print_error_message(const char* msg) const;
 	void print_error_message(const std::string msg) const;
@@ -40,17 +40,18 @@ public:
 	/* compares the command_str with the commands inside the _commands array
 	 * and if any of then matches it will return its index*/
 	command* find_command(std::string& command_str) const;
-       
+
 	/* when the user enters a command it can have parameters so the command and
 	 * the parameters have to be separated, the ' ' char is used as a the divider*/
 	std::vector<std::string> command_to_parameter_vector(const std::string& user_command) const;
 
-	/*all the methods with the cmmd prefix can be accesed by a command*/
-	void cmmd_help(); //display all commands
-	void cmmd_quit(); //quit program
-	
-	void cmmd_kill(); //kill a given piece  : debug
-	void cmmd_move(); //move one piece to a new location
+	//returns the command at the given index
+	command* operator[](int index) const;
+
+	algebraic_notation* algebraic_converter() { return &_algebraic_converter; }
+
+	std::vector<std::string> last_command_arguments() const { return _last_command_args; }
+
 };
 
 #endif

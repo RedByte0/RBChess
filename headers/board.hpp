@@ -55,7 +55,7 @@ public:
 
 	//given a position this method can determine to which row it belongs to
 	inline unsigned int get_row_from_position(unsigned int position) const {
-		return floor(position / columns());
+		return (unsigned int)floor(position / columns());
 	}
 
 	/* looks inside the _pieces vector a checks if any piece has the value _position
