@@ -26,7 +26,7 @@ std::vector<unsigned int> pawn::possible_movements() const {
 	std::vector<unsigned int> movements;
 	bool collision = false;
 	//black pawns advance by adding to their current position and white pawns by subtracting 
-	unsigned int const MOVEMENT_DIRECTION = piece::team() ? -board_ptr->rows() : board_ptr->rows();
+	int const MOVEMENT_DIRECTION = piece::team() ? -(int)board_ptr->rows() : board_ptr->rows();
 
 	/* if it is the first time that a pawn moves it can move twice the usual distance.
 	 * if a pawns collides against another piece the pawn can not longer move on that direction*/	

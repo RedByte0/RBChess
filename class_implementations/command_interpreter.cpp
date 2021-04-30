@@ -4,13 +4,67 @@
 #include <iostream>
 #include <string>
 
+//what a nightmare of a constructor
 command_interpreter::command_interpreter() : _NUMBER_OF_COMMANDS(4) {
 	_board = board::instance();
 	_commands = new command[4] {
-		{'h', "help", "this command displays all the available commands and how to use them", "h", 0, &command_interpreter::cmmd_help},
-		{'q', "quit", "quit the game", "q", 0, &command_interpreter::cmmd_quit},
-		{'k', "kill", "kill the piece at the given position", "k a8", 1, &command_interpreter::cmmd_kill},
-		{'m', "move", "move one piece to a new location", "m a7 a5", 2, &command_interpreter::cmmd_move}
+
+		{'h', "help", "this command displays all the available commands and how to use them", "h", 0, 
+			[](command_interpreter* interpreter) {
+				for (int i = 0; i < interpreter->number_of_commands(); i++) {
+					std::cout << (*(*interpreter)[i]) << std::endl;
+				}
+				std::cin.get();
+			}
+		},
+
+		{'q', "quit", "quit the game", "q", 0,
+			[](command_interpreter* interpreter) {
+				interactive_layer::instance()->quit_game();
+			}
+		},
+
+		{'k', "kill", "kill the piece at the given position", "k a8", 1,
+			[](command_interpreter* interpreter) {
+				std::vector<std::string> args = std::move(interpreter->last_command_arguments());
+				if (interpreter->algebraic_converter()->validate(args[0])) {
+					unsigned int position = interpreter->_algebraic_converter(args[0]);
+					if (board::instance()->delete_piece(position) == false) {
+						interpreter->print_error_message("There is not a piece at the given position");
+					}
+				}
+				else {
+					interpreter->print_error_message("Invalid algebraic notation");
+				}
+			}
+		},
+
+		{'m', "move", "move one piece to a new location", "m a7 a5", 2,
+			[](command_interpreter* interpreter) {
+				std::vector<std::string> args = std::move(interpreter->last_command_arguments());
+				algebraic_notation* algebraic = interpreter->algebraic_converter();
+
+				if (algebraic->validate(args)) {
+					//get a pointer to the piece selected by the user
+					std::shared_ptr<piece> selected_piece = (*board::instance())[(*algebraic)(args[0])];
+					if (selected_piece != nullptr) { //if its is nullptr is because there is not a piece at the given position
+						unsigned int new_position = (*algebraic)(args[1]);
+						if (selected_piece->valid_move(new_position)) {
+							selected_piece->move(new_position);
+						}
+						else {
+							interpreter->print_error_message(args[0] + " can not move to " + args[1]);
+						}
+					}
+					else {
+						interpreter->print_error_message("There is not a piece at " + args[0]);
+					}
+				}
+					else {
+						interpreter->print_error_message("Invalid algebraic notation");
+					}
+			}
+		}
 	};
 }
 
@@ -97,47 +151,8 @@ std::vector<std::string> command_interpreter::command_to_parameter_vector(const 
 	return parameters;
 }
 
-void command_interpreter::cmmd_help() {	
-	for(int i = 0; i < _NUMBER_OF_COMMANDS; i++)
-		std::cout << _commands[i] << std::endl;
-	std::cin.get();
-}
-
-void command_interpreter::cmmd_quit() {
-	interactive_layer::instance()->quit_game();
-}
-
-void command_interpreter::cmmd_kill() {
-		
-	if(_algebraic_converter.validate(_last_command_args[0])) {
-		unsigned int position = _algebraic_converter(_last_command_args[0]); 
-		if(_board->delete_piece(position) == false) {
-			print_error_message("There is not a piece at the given position");
-		}
-	}
-	else {
-		print_error_message("Invalid algebraic notation");
-	}
-}
-
-void command_interpreter::cmmd_move() {
-	if(_algebraic_converter.validate(_last_command_args)) {
-		//get a pointer to the piece selected by the user
-		std::shared_ptr<piece> selected_piece = (*_board)[_algebraic_converter(_last_command_args[0])];
-		if(selected_piece != nullptr) { //if its is nullptr is because there is not a piece at the given position
-			unsigned int new_position = _algebraic_converter(_last_command_args[1]);
-			if(selected_piece->valid_move(new_position)) {
-				selected_piece->move(new_position);
-			}
-			else {
-				print_error_message(_last_command_args[0] + " can not move to " + _last_command_args[1]);
-			}
-		}
-		else {
-			print_error_message("There is not a piece at " + _last_command_args[0]);
-		}
-	} 
-	else {
-		print_error_message("Invalid algebraic notation");
-	}
+command* command_interpreter::operator[](int index) const {
+	if (index >= 0 && index < _NUMBER_OF_COMMANDS)
+		return &_commands[index];
+	return nullptr;
 }
