@@ -8,7 +8,8 @@ board_printer::board_printer() {}
  * charge of printing the board using cout
  * */
 void board_printer::operator()() {
-	bool team = board::instance()->team();
+	//bool team = board::instance()->team();
+	bool team = true;
 	//keeps track of which position of the board is currently been printed
 	int board_position = 0;
 	
@@ -102,11 +103,12 @@ void board_printer::print_row_number(int row, bool padding_first) const {
 	//left
 	if(padding_first) {	
 		print_square_row_padding(1);
-		std::cout << (board::instance()->team() ? row + 1 : board::instance()->rows() - row);
+		std::cout << row + 1;
 	}
 	//right
 	else {	
-		std::cout << (board::instance()->team() ? row + 1 : board::instance()->rows() - row);
+		std::cout << row + 1;
+		//std::cout << (board::instance()->team() ? row + 1 : board::instance()->rows() - row);
 		print_square_row_padding(1);
 	}
 }

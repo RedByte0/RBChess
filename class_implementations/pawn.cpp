@@ -12,6 +12,7 @@ pawn::pawn(int position, bool team) : piece(position, team) {
  * it has to be promoted*/
 void pawn::move(unsigned int position) {
 	unsigned int row = board_ptr->get_row_from_position(position);
+	//if the new position of the pawn is the end of the board then the pawn is promoted
 	if(row == 0 || row == board_ptr->rows()-1) {
 		promote();	
 	}
@@ -34,8 +35,11 @@ std::vector<unsigned int> pawn::possible_movements() const {
 		unsigned int position = piece::position() + MOVEMENT_DIRECTION * (i + 1);
 		if(board_ptr->there_is_a_piece_at(position))
 			collision = true;
-		else
-			movements.push_back(position);	
+		else {
+			if(board_ptr->position_out_of_bounds(position) == false) {
+				movements.push_back(position);	
+			}
+		}
 	}
 	
 	/* pawns can move diagonally as long as there is a piece from the other

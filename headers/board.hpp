@@ -39,7 +39,7 @@ public:
 	 * but I dont know if I will get any performance improvement*/
 	inline static std::shared_ptr<board> instance() {
 		static std::shared_ptr<board> inst{new board};
-		return inst;	
+		return inst;
 	};
 
 	unsigned int rows() const {return 8;}
@@ -48,9 +48,11 @@ public:
 	unsigned int size() const {return rows() * columns();}
 	void add_piece(std::shared_ptr<piece> p) {_pieces.push_back(std::move(p));}
 
+	void swap_team() {_team = !_team;}
+
 	//a simple check to see if a given position is a valid position inside the board
 	inline bool position_out_of_bounds(unsigned int position) const {
-		return position < size();
+		return position >= size();
 	};
 
 	//given a position this method can determine to which row it belongs to

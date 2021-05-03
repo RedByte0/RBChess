@@ -19,9 +19,15 @@ piece::~piece() {
 }
 
 void piece::move(unsigned int position) {
+	if(board_ptr->there_is_a_piece_at(position)) {
+		board_ptr->delete_piece(position);
+	//delete the piece at the new location
+	}
+	//set the moved flag to true if is not set
 	if(!_moved)
 		_moved = true;
-	_position = position;
+	//change the position
+	_position = position;	
 }
 
 bool piece::valid_move(unsigned int new_position) {

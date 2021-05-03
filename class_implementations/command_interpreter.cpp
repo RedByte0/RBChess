@@ -5,9 +5,9 @@
 #include <string>
 
 //what a nightmare of a constructor
-command_interpreter::command_interpreter() : _NUMBER_OF_COMMANDS(4) {
+command_interpreter::command_interpreter() : _NUMBER_OF_COMMANDS(5) {
 	_board = board::instance();
-	_commands = new command[4] {
+	_commands = new command[5] {
 
 		{'h', "help", "this command displays all the available commands and how to use them", "h", 0, 
 			[](command_interpreter* interpreter) {
@@ -24,7 +24,7 @@ command_interpreter::command_interpreter() : _NUMBER_OF_COMMANDS(4) {
 			}
 		},
 
-		{'k', "kill", "kill the piece at the given position", "k a8", 1,
+		{'k', "kill", "kill the piece at the given position (debug)", "k a8", 1,
 			[](command_interpreter* interpreter) {
 				std::vector<std::string> args = std::move(interpreter->last_command_arguments());
 				if (interpreter->algebraic_converter()->validate(args[0])) {
@@ -48,21 +48,33 @@ command_interpreter::command_interpreter() : _NUMBER_OF_COMMANDS(4) {
 					//get a pointer to the piece selected by the user
 					std::shared_ptr<piece> selected_piece = (*board::instance())[(*algebraic)(args[0])];
 					if (selected_piece != nullptr) { //if its is nullptr is because there is not a piece at the given position
-						unsigned int new_position = (*algebraic)(args[1]);
-						if (selected_piece->valid_move(new_position)) {
-							selected_piece->move(new_position);
+						if(selected_piece->team() == board::instance()->team()) {
+							unsigned int new_position = (*algebraic)(args[1]);
+							if (selected_piece->valid_move(new_position)) {
+								selected_piece->move(new_position);
+								board::instance()->swap_team();
+							}
+							else {
+								interpreter->print_error_message(args[0] + " can not move to " + args[1]);
+							}
 						}
 						else {
-							interpreter->print_error_message(args[0] + " can not move to " + args[1]);
+							interpreter->print_error_message("You can not move that piece");
 						}
 					}
 					else {
 						interpreter->print_error_message("There is not a piece at " + args[0]);
 					}
 				}
-					else {
-						interpreter->print_error_message("Invalid algebraic notation");
-					}
+				else {
+					interpreter->print_error_message("Invalid algebraic notation");
+				}
+			}
+		},
+
+		{'s', "swap", "swap team (debug)", "s", 0,
+			[](command_interpreter* interpreter) {
+				board::instance()->swap_team();
 			}
 		}
 	};
