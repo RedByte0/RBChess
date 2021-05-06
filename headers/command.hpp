@@ -22,12 +22,11 @@ private:
 	* there are no commands that have a variable number of parameters*/
 	const std::size_t _number_of_parameters;
 
-	std::function<void(command_interpreter*)> _function;
+	std::function<void(void)> _function;
 
 public:
-	command(const char ch, const std::string str, const char* help, const char* example, const int num_parameters, std::function<void(command_interpreter*)>);
+	command(const char ch, const std::string str, const char* help, const char* example, const int num_parameters, std::function<void(void)>);
 	~command();
-	
 
 	command() = delete;
 	command(const command& com) = delete; 
@@ -35,13 +34,13 @@ public:
 	command& operator=(const command& com) = delete; 
 	command& operator=(const command&& com) = delete;
 	
-	void execute(command_interpreter* interpreter);
+	void execute();
 
 	/*compare str with _identifier_char and _identifier_str*/
 	bool operator==(const std::string& str) const;
 	/*compare num_parameters with _number_of_parameters*/
 	bool operator==(const std::size_t num_parameters) const;
-	friend std::ostream& operator<<(std::ostream& os, const command& com);	
+	friend std::ostream& operator<<(std::ostream& os, const command& com);
 
 };
 

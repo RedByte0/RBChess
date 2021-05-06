@@ -1,6 +1,6 @@
 #include "../headers/command.hpp"
 
-command::command(const char ch, const std::string str, const char* help, const char* example, const int num_parameters, std::function<void(command_interpreter*)> func)
+command::command(const char ch, const std::string str, const char* help, const char* example, const int num_parameters, std::function<void(void)> func)
 	: _identifier_char(ch), _identifier_str(str), _number_of_parameters(num_parameters) {
 	_help_message = help;
 	_example_message = example;
@@ -9,8 +9,8 @@ command::command(const char ch, const std::string str, const char* help, const c
 
 command::~command() {}
 
-void command::execute(command_interpreter* interpreter) {
-	_function(interpreter);
+void command::execute() {
+	_function();
 }
 
 

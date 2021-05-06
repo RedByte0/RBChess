@@ -120,3 +120,7 @@ void board_printer::print_square_row_padding(int starting_point) const {
 		std::cout << PADDING_CHAR;
 	}
 }
+
+void board_printer::highlight_positions(std::vector<unsigned int>&& positions) {
+	highlight_position = std::move(positions);
+}

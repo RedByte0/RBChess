@@ -1,4 +1,5 @@
 #include "../headers/board.hpp"
+#include "../headers/interactive_layer.hpp"
 
 board::board() {
 	_team = true;
@@ -38,6 +39,7 @@ std::shared_ptr<piece> board::operator[](unsigned int position) {
 		if(_pieces[i]->position() == position)
 			return _pieces[i];
 	}
+	interactive_layer::instance()->print_error_message("There is not a piece at the given position");
 	return nullptr;
 }
 
@@ -46,5 +48,6 @@ const std::shared_ptr<piece> board::operator[](unsigned int position) const {
 		if(_pieces[i]->position() == position)
 			return _pieces[i];
 	}
+	interactive_layer::instance()->print_error_message("There is not a piece at the given position");
 	return nullptr;
 }

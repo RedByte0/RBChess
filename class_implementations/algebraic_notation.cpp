@@ -1,4 +1,5 @@
 #include "../headers/algebraic_notation.hpp"
+#include "../headers/interactive_layer.hpp"
 #include "../headers/board.hpp"
 #include <cctype>
 
@@ -17,20 +18,29 @@ int algebraic_notation::operator()(const std::string& algebraic_notation) const 
 
 /*cheks if a given string is valid algebraic notation*/
 bool algebraic_notation::validate(const std::string& str) const {
-	if(str.length() != 2)
+	if(str.length() != 2) {
+		interactive_layer::instance()->print_error_message("Invalid algebraic notation");
 		return false;
+	}
+
 	int ch = int(str[0]);
 	int num = int(str[1]);
 	//letter to lowercase
-	if(ch < 97)
+	if(ch < 97) {
 		ch += 32;
+	}
+
 	//is a letter between a and z
-	if(ch < 97 || ch > 122)
+	if(ch < 97 || ch > 122) {	
+		interactive_layer::instance()->print_error_message("Invalid algebraic notation invalid character");
 		return false;
+	}
 
 	//is a number between 1 and 9
-	if(num < 49 || num > 57)
+	if(num < 49 || num > 57) {
+		interactive_layer::instance()->print_error_message("Invalid algebraic notation invalid numeric value");
 		return false;
+	}
 
 	return true;
 }

@@ -5,78 +5,16 @@
 #include <string>
 
 //what a nightmare of a constructor
-command_interpreter::command_interpreter() : _NUMBER_OF_COMMANDS(5) {
+command_interpreter::command_interpreter() : _NUMBER_OF_COMMANDS(6) {
 	_board = board::instance();
-	_commands = new command[5] {
-
-		{'h', "help", "this command displays all the available commands and how to use them", "h", 0, 
-			[](command_interpreter* interpreter) {
-				for (int i = 0; i < interpreter->number_of_commands(); i++) {
-					std::cout << (*(*interpreter)[i]) << std::endl;
-				}
-				std::cin.get();
-			}
-		},
-
-		{'q', "quit", "quit the game", "q", 0,
-			[](command_interpreter* interpreter) {
-				interactive_layer::instance()->quit_game();
-			}
-		},
-
-		{'k', "kill", "kill the piece at the given position (debug)", "k a8", 1,
-			[](command_interpreter* interpreter) {
-				std::vector<std::string> args = std::move(interpreter->last_command_arguments());
-				if (interpreter->algebraic_converter()->validate(args[0])) {
-					unsigned int position = interpreter->_algebraic_converter(args[0]);
-					if (board::instance()->delete_piece(position) == false) {
-						interpreter->print_error_message("There is not a piece at the given position");
-					}
-				}
-				else {
-					interpreter->print_error_message("Invalid algebraic notation");
-				}
-			}
-		},
-
-		{'m', "move", "move one piece to a new location", "m a7 a5", 2,
-			[](command_interpreter* interpreter) {
-				std::vector<std::string> args = std::move(interpreter->last_command_arguments());
-				algebraic_notation* algebraic = interpreter->algebraic_converter();
-
-				if (algebraic->validate(args)) {
-					//get a pointer to the piece selected by the user
-					std::shared_ptr<piece> selected_piece = (*board::instance())[(*algebraic)(args[0])];
-					if (selected_piece != nullptr) { //if its is nullptr is because there is not a piece at the given position
-						if(selected_piece->team() == board::instance()->team()) {
-							unsigned int new_position = (*algebraic)(args[1]);
-							if (selected_piece->valid_move(new_position)) {
-								selected_piece->move(new_position);
-								board::instance()->swap_team();
-							}
-							else {
-								interpreter->print_error_message(args[0] + " can not move to " + args[1]);
-							}
-						}
-						else {
-							interpreter->print_error_message("You can not move that piece");
-						}
-					}
-					else {
-						interpreter->print_error_message("There is not a piece at " + args[0]);
-					}
-				}
-				else {
-					interpreter->print_error_message("Invalid algebraic notation");
-				}
-			}
-		},
-
-		{'s', "swap", "swap team (debug)", "s", 0,
-			[](command_interpreter* interpreter) {
-				board::instance()->swap_team();
-			}
-		}
+	_commands = new command[6] {
+		//since they are not static method they have to be linked to and instance of command_interpreter
+		{'h', "help", "this command displays all the available commands and how to use them", "h", 0, std::bind(&command_interpreter::command_help, this)},
+		{'q', "quit", "quit the game", "q", 0, std::bind(&command_interpreter::command_quit, this)},
+		{'k', "kill", "kill the piece at the given position (debug)", "k a8", 1, std::bind(&command_interpreter::command_kill, this)},
+		{'m', "move", "move one piece to a new location", "m a7 a5", 2, std::bind(&command_interpreter::command_move, this)},
+		{'s', "swap", "swap team (debug)", "s", 0, std::bind(&command_interpreter::command_swap, this)},
+		{'r', "reveal", "reveals all the positions that a piece can moveo to", "r f4", 1, std::bind(&command_interpreter::command_reveal, this)}
 	};
 }
 
@@ -98,17 +36,6 @@ bool command_interpreter::wait_for_command() {
 	return false;
 }
 
-void command_interpreter::print_error_message(const char* msg) const {
-	std::cout << msg << ", use h to display the help menu...";
-	std::cin.get();
-}
-
-
-void command_interpreter::print_error_message(const std::string msg) const {
-	std::cout << msg << ", use h to display the help menu...";
-	std::cin.get();
-}
-
 /* the command_str parameter contains the name of the command and the parameters of the command*/
 void command_interpreter::execute_command(std::string& command_str) {
 	//the command is split into a vector of strings
@@ -122,17 +49,17 @@ void command_interpreter::execute_command(std::string& command_str) {
 
 	//if the pointer is null it means the given _identifier is not a valid one
 	if(command_ptr == nullptr) {
-		print_error_message("Invalid command");
+		interactive_layer::instance()->print_error_message("Invalid command");
 	}
 	//compares the number of elements of the vector with the number of parameters that the command can take
 	else if ((*command_ptr) == _last_command_args.size()) {
 		//this is a bit confusing, the _function hold by the command is a pointer to a function
 		//from the command_interpreter class, so in order to execute the _function from the command
 		//an instance of command_interpreter is required
-		command_ptr->execute(this);
+		command_ptr->execute();
 	}
 	else {
-		print_error_message("Invalid number of arguments");
+		interactive_layer::instance()->print_error_message("Invalid number of arguments");
 	}
 }
 
@@ -167,4 +94,63 @@ command* command_interpreter::operator[](int index) const {
 	if (index >= 0 && index < _NUMBER_OF_COMMANDS)
 		return &_commands[index];
 	return nullptr;
+}
+
+void command_interpreter::command_help() {
+	for (int i = 0; i < number_of_commands(); i++) {
+		std::cout << (*(*this)[i]) << std::endl;
+	}
+	std::cin.get();
+}
+
+void command_interpreter::command_quit() {
+	interactive_layer::instance()->quit_game();
+}
+
+void command_interpreter::command_move() {
+	std::vector<std::string> args = std::move(last_command_arguments());
+	if (_algebraic_converter.validate(args)) {
+		//get a pointer to the piece selected by the user
+		std::shared_ptr<piece> selected_piece = (*board::instance())[_algebraic_converter(args[0])];
+		if (selected_piece != nullptr) { //if its is nullptr is because there is not a piece at the given position
+			if(selected_piece->team() == board::instance()->team()) {
+				unsigned int new_position = _algebraic_converter(args[1]);
+				if (selected_piece->valid_move(new_position)) {
+					selected_piece->move(new_position);
+					board::instance()->swap_team();
+				}
+				else {
+					interactive_layer::instance()->print_error_message(args[0] + " can not move to " + args[1]);
+				}
+			}
+			else {
+				interactive_layer::instance()->print_error_message("You can not move that piece");
+			}
+		}
+	}
+}
+
+void command_interpreter::command_reveal() {
+	std::vector<std::string> args = std::move(last_command_arguments());
+	if(_algebraic_converter.validate(args[0])) {
+		std::shared_ptr<piece> piece_ptr = (*board::instance())[_algebraic_converter(args[0])]; 
+		if(piece_ptr != nullptr) {
+			board_printer* printer = interactive_layer::instance()->get_board_printer();
+			printer->highlight_positions(piece_ptr->possible_movements());
+		}
+	}
+}
+
+void command_interpreter::command_swap() {
+	board::instance()->swap_team();
+}
+
+void command_interpreter::command_kill() {
+	std::vector<std::string> args = std::move(last_command_arguments());
+	if (_algebraic_converter.validate(args[0])) {
+	unsigned int position = _algebraic_converter(args[0]);
+		if (board::instance()->delete_piece(position) == false) {
+			interactive_layer::instance()->print_error_message("There is not a piece at the given position");
+		}
+	}
 }

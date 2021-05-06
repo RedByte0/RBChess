@@ -1,7 +1,7 @@
 CC=g++
 FLAGS=-Wall -Wextra -pedantic -c -g -std=c++17 -O0 -e -j10
 
-output: main.o board.o board_printer.o piece.o pawn.o interactive_layer.o command_interpreter.o command.o algebraic_notation.o rook.o bishop.o queen.o
+output: main.o board.o board_printer.o piece.o pawn.o interactive_layer.o command_interpreter.o command.o algebraic_notation.o rook.o bishop.o queen.o king.o
 	g++ *.o -o RBChess
 
 main.o: main.cpp
@@ -39,6 +39,9 @@ bishop.o: ./class_implementations/bishop.cpp ./headers/bishop.hpp
 
 queen.o: ./class_implementations/queen.cpp ./headers/queen.hpp	
 	$(CC) ./class_implementations/queen.cpp $(FLAGS)
+
+king.o: ./class_implementations/king.cpp ./headers/king.hpp	
+	$(CC) ./class_implementations/king.cpp $(FLAGS)
 
 clean:
 	rm *.o RBChess

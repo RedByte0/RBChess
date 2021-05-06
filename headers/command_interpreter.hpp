@@ -30,9 +30,6 @@ public:
 	bool wait_for_command();
 	int number_of_commands() const { return _NUMBER_OF_COMMANDS; }
 
-	void print_error_message(const char* msg) const;
-	void print_error_message(const std::string msg) const;
-
 	/* it tries to execute the command given by the player and does all sort
 	 * of error checking */
 	void execute_command(std::string& command_str);
@@ -52,6 +49,15 @@ public:
 
 	std::vector<std::string> last_command_arguments() const { return _last_command_args; }
 
+	/*class methods that can be accesed by commands*/
+	void command_help();
+	void command_quit();
+	void command_move();
+	void command_reveal();
+
+	//debug
+	void command_swap();
+	void command_kill();
 };
 
 #endif

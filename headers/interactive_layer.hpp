@@ -27,8 +27,19 @@ public:
 	/* this is the main loop of the game
 	 * and it should keep running until _run_game is set to false*/
 	void start_game();
-
 	void quit_game() {_run_game = false;}
+
+	board_printer* get_board_printer() {return &_board_printer;}
+
+	inline void print_error_message(const char* message) const {
+		std::cout << message << ", use h to display help menu... ";
+		std::cin.get();
+	}
+
+	inline void print_error_message(const std::string message) const {
+		std::cout << message << ", use h to display help menu... ";
+		std::cin.get();
+	}
 
 	/* this class can not be copied or moved*/
 	interactive_layer(const interactive_layer& inte) = delete;
