@@ -8,6 +8,7 @@ const char* king::icon() const {
 
 std::vector<unsigned int> king::possible_movements() const {
 	std::vector<unsigned int> movements;
+
 	const int MOVEMENT_DIRECTIONS[8] = {
 		1, (int)board_ptr->columns(),
 	       -1, -(int)board_ptr->columns(),
@@ -15,6 +16,7 @@ std::vector<unsigned int> king::possible_movements() const {
        		-(int)board_ptr->columns() + 1, -(int)board_ptr->columns() - 1
 	};
 	
+	//check if the positions at MOVEMENT_DIRECTIONS are valid, if they are add them to the movements vector
 	for(int direction : MOVEMENT_DIRECTIONS) {
 		unsigned int position = piece::position() + direction;
 		if(board_ptr->position_out_of_bounds(position) == false) {

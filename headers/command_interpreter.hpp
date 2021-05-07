@@ -6,6 +6,7 @@
 #include <vector>
 #include "algebraic_notation.hpp"
 #include "board.hpp"
+#include <memory>
 
 class command;
 
@@ -17,17 +18,17 @@ private:
 	const int _NUMBER_OF_COMMANDS;
 	command* _commands;
 
-	/* stores the arguments that the user entered if any
-	 * alongside the last command*/
-	std::vector<std::string> _last_command_args;
+	/* stores the arguments of the last command*/
+	std::vector<std::string> _args;
+
 public:
+
 	command_interpreter();
 	~command_interpreter();
 
 	/* calls cin >> and waits until the user inserts a command
-	 * if it is a valid command it will be executed by this same function
-	 * and true will be returned, if is not a valid command it will just return false*/
-	bool wait_for_command();
+	 * if it is a valid command it will be executed by this same function*/
+	void wait_for_command();
 	int number_of_commands() const { return _NUMBER_OF_COMMANDS; }
 
 	/* it tries to execute the command given by the player and does all sort
@@ -45,9 +46,10 @@ public:
 	//returns the command at the given index
 	command* operator[](int index) const;
 
-	algebraic_notation* algebraic_converter() { return &_algebraic_converter; }
+	//this methods wrap some from the board and add some error messges
 
-	std::vector<std::string> last_command_arguments() const { return _last_command_args; }
+	std::shared_ptr<piece> piece_at(unsigned int position);
+
 
 	/*class methods that can be accesed by commands*/
 	void command_help();

@@ -18,6 +18,7 @@ int algebraic_notation::operator()(const std::string& algebraic_notation) const 
 
 /*cheks if a given string is valid algebraic notation*/
 bool algebraic_notation::validate(const std::string& str) const {
+
 	if(str.length() != 2) {
 		interactive_layer::instance()->print_error_message("Invalid algebraic notation");
 		return false;

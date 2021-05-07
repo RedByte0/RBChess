@@ -35,11 +35,10 @@ bool board::delete_piece(unsigned int position) {
 }
 
 std::shared_ptr<piece> board::operator[](unsigned int position) {
-	for(std::size_t i = 0; i < _pieces.size(); i++) {
-		if(_pieces[i]->position() == position)
+	for (std::size_t i = 0; i < _pieces.size(); i++) {
+		if (_pieces[i]->position() == position)
 			return _pieces[i];
 	}
-	interactive_layer::instance()->print_error_message("There is not a piece at the given position");
 	return nullptr;
 }
 
@@ -48,6 +47,5 @@ const std::shared_ptr<piece> board::operator[](unsigned int position) const {
 		if(_pieces[i]->position() == position)
 			return _pieces[i];
 	}
-	interactive_layer::instance()->print_error_message("There is not a piece at the given position");
 	return nullptr;
 }

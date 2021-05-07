@@ -31,6 +31,7 @@ public:
 
 	board_printer* get_board_printer() {return &_board_printer;}
 
+	//this errors only occur when there is some input from the user, this is why they are part of the interactive layer
 	inline void print_error_message(const char* message) const {
 		std::cout << message << ", use h to display help menu... ";
 		std::cin.get();
