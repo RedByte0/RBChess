@@ -1,5 +1,6 @@
 #include "../headers/board_printer.hpp"
 #include <iostream>
+#include <algorithm>
 
 board_printer::board_printer() {}
 

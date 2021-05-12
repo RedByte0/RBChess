@@ -60,6 +60,11 @@ public:
 		return (unsigned int)floor(position / columns());
 	}
 
+	//given a position this method can determine to which column it belongs to
+	inline unsigned int get_column_from_position(unsigned int position) const {
+		return std::floor(position/columns());
+	}
+
 	/* looks inside the _pieces vector a checks if any piece has the value _position
 	 * equal to the given value*/
 	bool there_is_a_piece_at(unsigned int position) const;

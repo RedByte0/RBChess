@@ -46,6 +46,13 @@ public:
 	virtual std::vector<unsigned int> possible_movements() const {return std::move(std::vector<unsigned int>());}
 	//cheks if the given position is part of the vector returned by possible_movements
 	bool valid_move(unsigned int position);
+
+	/* horizontal movements are a bit different from the rest. It is important that we are not taking as valid positions
+	 *  that are not from the same row as the original*/
+	void horizontal_movements(std::vector<unsigned int>& movements) const;
+	/* most pieces can move on different directions until they reach the end of the board or they collide*/
+	void vertical_movements(std::vector<unsigned int>& movements) const;
+	void diagonal_movements(std::vector<unsigned int>& movements) const;
 };
 
 #endif

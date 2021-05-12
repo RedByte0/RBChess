@@ -5,7 +5,6 @@
 
 class rook : public piece {
 private:
-	void horizontal_movements(std::vector<unsigned int>& movements) const;
 	void vertical_movements(std::vector<unsigned int>& movements) const;
 
 public:
