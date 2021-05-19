@@ -102,12 +102,10 @@ void piece::diagonal_movements(std::vector<unsigned int>& movements) const {
 			if(piece_ptr != nullptr) {
 				collision = true;
 				if(piece_ptr->team() != team()) {
-					std::cout << "New position: " << i << "\n\tColumn: " << column << "\n\tDirection: " << direction <<  "\n\tPrevious column: " << previous_column << "\n\tColumn difference: " << column_difference << std::endl;
 					movements.push_back(i);
 				}
 			}
 			else {
-					std::cout << "New position: " << i << "\n\tColumn: " << column << "\n\tDirection: " << direction <<  "\n\tPrevious column: " << previous_column << "\n\tColumn difference: " << column_difference << std::endl;
 				movements.push_back(i);
 			}
 			previous_column = column;
