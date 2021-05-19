@@ -62,7 +62,7 @@ public:
 
 	//given a position this method can determine to which column it belongs to
 	inline unsigned int get_column_from_position(unsigned int position) const {
-		return std::floor(position/columns());
+		return position - (get_row_from_position(position) * columns());
 	}
 
 	/* looks inside the _pieces vector a checks if any piece has the value _position
