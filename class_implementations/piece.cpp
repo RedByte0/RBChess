@@ -96,20 +96,24 @@ void piece::diagonal_movements(std::vector<unsigned int>& movements) const {
 		int column = board_ptr->get_column_from_position(i);
 		int column_difference = previous_column - column;
 
-		while(collision == false && board_ptr->position_out_of_bounds(i) == false && std::max(column_difference, -column_difference) == 1) {
+		while(collision == false && board_ptr->position_out_of_bounds(i) == false && 
+		std::max(column_difference, -column_difference) == 1) {
 			std::shared_ptr<piece> piece_ptr = (*board_ptr)[i];
 			if(piece_ptr != nullptr) {
 				collision = true;
 				if(piece_ptr->team() != team()) {
+					std::cout << "New position: " << i << "\n\tColumn: " << column << "\n\tDirection: " << direction <<  "\n\tPrevious column: " << previous_column << "\n\tColumn difference: " << column_difference << std::endl;
 					movements.push_back(i);
 				}
 			}
 			else {
+					std::cout << "New position: " << i << "\n\tColumn: " << column << "\n\tDirection: " << direction <<  "\n\tPrevious column: " << previous_column << "\n\tColumn difference: " << column_difference << std::endl;
 				movements.push_back(i);
 			}
 			previous_column = column;
 			i += direction;
 			column = board_ptr->get_column_from_position(i);
+			column_difference = previous_column - column;
 		}
 	}
 }

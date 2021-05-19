@@ -17,13 +17,12 @@ int main() {
 
 void load_pieces() {
 	std::vector<std::shared_ptr<piece>> pieces = {
-		std::shared_ptr<pawn>(new pawn(8, false)), std::shared_ptr<pawn>(new pawn(9, false)),
-		std::shared_ptr<pawn>(new pawn(10, false)), std::shared_ptr<pawn>(new pawn(11, false)),
-		std::shared_ptr<rook>(new rook(38, true)), std::shared_ptr<rook>(new rook(20, false)),
-		std::shared_ptr<bishop>(new bishop(26, true)), std::shared_ptr<bishop>(new bishop(40, false)),
-		std::shared_ptr<queen>(new queen(27, true)), std::shared_ptr<queen>(new queen(44, false)),
-		std::shared_ptr<king>(new king(34, true)), std::shared_ptr<king>(new king(37, false)),
-		std::shared_ptr<knight>(new knight(24, true))
+		std::shared_ptr<piece>(new rook(0, false)), std::shared_ptr<piece>(new knight(1, false)),
+		std::shared_ptr<piece>(new bishop(2, false)), std::shared_ptr<piece>(new king(3, false)),
+		std::shared_ptr<piece>(new queen(4, false)), std::shared_ptr<piece>(new bishop(5, false)),
+		std::shared_ptr<piece>(new knight(6, false)), std::shared_ptr<piece>(new rook(7, false)),
+		std::shared_ptr<piece>(new bishop(41, true))
 	};
+
 	board::instance()->initialize_pieces(pieces);
 }
