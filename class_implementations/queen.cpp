@@ -7,8 +7,8 @@ const char* queen::icon() const {
 }
 
 
-std::vector<unsigned int> queen::possible_movements() const {
-	std::vector<unsigned int> movements;
+std::vector<int> queen::possible_movements() const {
+	std::vector<int> movements;
 	piece::vertical_movements(movements);
 	piece::horizontal_movements(movements);
 	piece::diagonal_movements(movements);

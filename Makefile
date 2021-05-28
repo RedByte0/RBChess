@@ -1,5 +1,5 @@
 CC=g++
-FLAGS=-Wall -Wextra -pedantic -c -g -std=c++17 -O0 -e -j10
+FLAGS=-Wall -Wextra -Wpedantic -pedantic -c -g -std=c++17 -O0 -e -j10
 
 output: main.o board.o board_printer.o piece.o pawn.o interactive_layer.o command_interpreter.o command.o algebraic_notation.o rook.o bishop.o queen.o king.o knight.o
 	g++ *.o -o RBChess

@@ -6,8 +6,8 @@ const char* bishop::icon() const {
 	return "Bi";
 }
 
-std::vector<unsigned int> bishop::possible_movements() const {
-	std::vector<unsigned int> movements;
+std::vector<int> bishop::possible_movements() const {
+	std::vector<int> movements;
 	piece::diagonal_movements(movements);
 	return movements;
 }

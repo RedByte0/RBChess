@@ -18,7 +18,7 @@ piece::piece(int position, bool team) {
 piece::~piece() {
 }
 
-void piece::move(unsigned int position) {
+void piece::move(int position) {
 	if(board_ptr->there_is_a_piece_at(position)) {
 		board_ptr->delete_piece(position);
 	//delete the piece at the new location
@@ -30,20 +30,20 @@ void piece::move(unsigned int position) {
 	_position = position;
 }
 
-bool piece::valid_move(unsigned int new_position) {
-	std::vector<unsigned int> movements = std::move(possible_movements());
-	std::vector<unsigned int>::iterator result = std::find(movements.begin(), movements.end(), new_position);
+bool piece::valid_move(int new_position) {
+	std::vector<int> movements = std::move(possible_movements());
+	std::vector<int>::iterator result = std::find(movements.begin(), movements.end(), new_position);
 	return result != movements.end();
 }
 
-void piece::horizontal_movements(std::vector<unsigned int>& movements) const {
-	const unsigned int CURRENT_ROW = board_ptr->get_row_from_position(_position);
+void piece::horizontal_movements(std::vector<int>& movements) const {
+	const int CURRENT_ROW = board_ptr->get_row_from_position(_position);
 
 	for (int direction : {-1, 1}) {
 		bool collision = false;
 		
 		//stop when there is a collision and when the piece tries to move to a new row
-		for(unsigned int i = _position + direction, row = board_ptr->get_row_from_position(i); 
+		for(int i = _position + direction, row = board_ptr->get_row_from_position(i); 
 		row == CURRENT_ROW && collision == false; 
 		i += direction, row = board_ptr->get_row_from_position(i)) {
 
@@ -65,10 +65,10 @@ void piece::horizontal_movements(std::vector<unsigned int>& movements) const {
 	}
 }
 
-void piece::vertical_movements(std::vector<unsigned int>& movements) const {
+void piece::vertical_movements(std::vector<int>& movements) const {
 	for(int direction : {board_ptr->columns(), -board_ptr->columns()}) {
 		bool collision = false;
-		for(unsigned int i = _position + direction; board_ptr->position_out_of_bounds(i) == false && collision == false; i += direction) {
+		for(int i = _position + direction; board_ptr->position_out_of_bounds(i) == false && collision == false; i += direction) {
 			std::shared_ptr<piece> piece_ptr = (*board_ptr)[i];
 			if(piece_ptr != nullptr) {
 				collision = true;
@@ -83,7 +83,7 @@ void piece::vertical_movements(std::vector<unsigned int>& movements) const {
 	}
 }
 
-void piece::diagonal_movements(std::vector<unsigned int>& movements) const {
+void piece::diagonal_movements(std::vector<int>& movements) const {
 	const std::vector<int> directions = {
 		(int)board_ptr->columns() + 1, (int)board_ptr->columns() - 1,
 		-(int)board_ptr->columns() + 1, -(int)board_ptr->columns() - 1,
@@ -92,7 +92,7 @@ void piece::diagonal_movements(std::vector<unsigned int>& movements) const {
 	for(int direction : directions) {
 		bool collision = false;
 		int previous_column = board_ptr->get_column_from_position(_position);
-		unsigned int i = _position + direction;
+		int i = _position + direction;
 		int column = board_ptr->get_column_from_position(i);
 		int column_difference = previous_column - column;
 

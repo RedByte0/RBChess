@@ -48,7 +48,7 @@ public:
 
 	//this methods wrap some from the board and add some error messges
 
-	std::shared_ptr<piece> piece_at(unsigned int position);
+	std::shared_ptr<piece> piece_at(int position);
 
 
 	/*class methods that can be accesed by commands*/

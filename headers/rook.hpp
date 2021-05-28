@@ -5,15 +5,15 @@
 
 class rook : public piece {
 private:
-	void vertical_movements(std::vector<unsigned int>& movements) const;
+	void vertical_movements(std::vector<int>& movements) const;
 
 public:
 	rook(int position, bool team);
 	rook() = delete;
 	
-	//void move(unsigned int position) override; 
+	//void move(int position) override; 
 	const char* icon() const override;
-	std::vector<unsigned int> possible_movements() const override;
+	std::vector<int> possible_movements() const override;
 };
 
 #endif

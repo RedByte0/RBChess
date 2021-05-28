@@ -17,7 +17,7 @@ void board_printer::operator()() {
 	//print the letter a the top of the board
 	print_column_letters();
 
-	for (unsigned int row = 0; row < board::instance()->rows(); row++) {
+	for (int row = 0; row < board::instance()->rows(); row++) {
 		print_row(team, row, board_position);
 		team = !team;
 	}
@@ -36,7 +36,7 @@ void board_printer::print_row(bool team, int row, int& board_position) const {
 	//the first row of a square is different from the rest because is where the number of the row is displayed
 	print_square_row_with_row_number(team, row, board_position);
 	int starting_board_position = board_position;
-	for (unsigned int square_row = 1; square_row < SQUARE_ROWS; square_row++)
+	for (int square_row = 1; square_row < SQUARE_ROWS; square_row++)
 	{
 		print_square_row_padding();
 		if (square_row == SQUARE_ROWS / 2)
@@ -49,9 +49,9 @@ void board_printer::print_row(bool team, int row, int& board_position) const {
 }
 
 /*prints a basic square row no numbers nor pieces*/
-void board_printer::print_square_row(bool team, unsigned int board_position) const {
-	for (unsigned int column = 0; column < board::instance()->columns(); column++) {
-		for (unsigned int square_column = 0; square_column < SQUARE_COLUMNS; square_column++) {
+void board_printer::print_square_row(bool team, int board_position) const {
+	for (int column = 0; column < board::instance()->columns(); column++) {
+		for (int square_column = 0; square_column < SQUARE_COLUMNS; square_column++) {
 			std::cout << (is_highlighted(board_position) ? HIGHLIGHT_CHAR : TEAM_SQUARES[team]);
 		}
 		board_position++;
@@ -59,7 +59,7 @@ void board_printer::print_square_row(bool team, unsigned int board_position) con
 	}
 }
 
-void board_printer::print_square_row_with_row_number(bool team, int row, unsigned int board_position) const {
+void board_printer::print_square_row_with_row_number(bool team, int row, int board_position) const {
 	//number at the left
 	print_row_number(row, false);
 
@@ -71,23 +71,23 @@ void board_printer::print_square_row_with_row_number(bool team, int row, unsigne
 }
 
 void board_printer::print_square_row_with_piece(bool team, int& board_position) const {
-	for (unsigned int column = 0; column < board::instance()->columns(); column++) {
+	for (int column = 0; column < board::instance()->columns(); column++) {
 		if (board::instance()->there_is_a_piece_at(board_position)) {
 			/* if there is a piece on that position its icon has to be printed
 			 * the team that it belongs to also has to be printed
 			 * the icon is 2 characters long and the team 3*/
-			unsigned int square_columns_left = SQUARE_COLUMNS - 5;
-			for (unsigned int square_column = 0; square_column < square_columns_left / 2; square_column++) {
+			int square_columns_left = SQUARE_COLUMNS - 5;
+			for (int square_column = 0; square_column < square_columns_left / 2; square_column++) {
 				std::cout << (is_highlighted(board_position) ? HIGHLIGHT_CHAR : TEAM_SQUARES[team]);
 			}
 			std::cout << (*board::instance())[board_position]->icon()
 				<< '[' << ((*board::instance())[board_position]->team() ? 'w' : 'b') << ']';
-			for (unsigned int square_column = 0; square_column < square_columns_left / 2; square_column++) {
+			for (int square_column = 0; square_column < square_columns_left / 2; square_column++) {
 				std::cout << (is_highlighted(board_position) ? HIGHLIGHT_CHAR : TEAM_SQUARES[team]);
 			}
 		}
 		else {
-			for (unsigned int square_column = 0; square_column < SQUARE_COLUMNS; square_column++) {
+			for (int square_column = 0; square_column < SQUARE_COLUMNS; square_column++) {
 				std::cout << (is_highlighted(board_position) ? HIGHLIGHT_CHAR : TEAM_SQUARES[team]);
 			}
 		}
@@ -98,9 +98,9 @@ void board_printer::print_square_row_with_piece(bool team, int& board_position) 
 
 void board_printer::print_column_letters() const {
 	print_square_row_padding();
-	for (unsigned int column = 0; column < board::instance()->columns(); column++) {
+	for (int column = 0; column < board::instance()->columns(); column++) {
 		std::cout << char(97 + column);
-		for (unsigned int i = 0; i < SQUARE_COLUMNS - 1; i++) {
+		for (int i = 0; i < SQUARE_COLUMNS - 1; i++) {
 			std::cout << ' ';
 		}
 	}
@@ -128,15 +128,15 @@ void board_printer::print_row_number(int row, bool padding_first) const {
 /* prints the horizontal padding that comes before or after the numbers and before the letters.
  * sometimes part of the padding is occupied by a number so not always the same ammount of padding is needed*/
 void board_printer::print_square_row_padding(int starting_point) const {
-	for (unsigned int padding = starting_point; padding < PADDING; padding++) {
+	for (int padding = starting_point; padding < PADDING; padding++) {
 		std::cout << PADDING_CHAR;
 	}
 }
 
-bool board_printer::is_highlighted(unsigned int position) const {
+bool board_printer::is_highlighted(int position) const {
 	return std::find(_highlighted_positions.begin(), _highlighted_positions.end(), position) != _highlighted_positions.end();
 }
 
-void board_printer::highlight_positions(std::vector<unsigned int>&& positions) {
+void board_printer::highlight_positions(std::vector<int>&& positions) {
 	_highlighted_positions = std::move(positions);
 }

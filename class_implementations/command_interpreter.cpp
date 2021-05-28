@@ -99,7 +99,7 @@ command* command_interpreter::operator[](int index) const {
 
 //this methods wrap some from the board and add some error messges
 
-std::shared_ptr<piece> command_interpreter::piece_at(unsigned int position) {
+std::shared_ptr<piece> command_interpreter::piece_at(int position) {
 	std::shared_ptr<piece> piece_ptr = (*_board)[position];
 	if (piece_ptr == nullptr) {
 		interactive_layer::instance()->print_error_message("There is no a piece at the given position");
@@ -132,7 +132,7 @@ void command_interpreter::command_move() {
 		if (selected_piece != nullptr) { 
 			//the team of the selected piece must be the same as the team of the player that is playing
 			if (selected_piece->team() == board::instance()->team()) {
-				unsigned int new_position = _algebraic_converter(_args[1]);
+				int new_position = _algebraic_converter(_args[1]);
 				//before moving the piece we must check if the piece can move there
 				if (selected_piece->valid_move(new_position)) {
 					//move the piece to its new location, if there is already a piece at that position it will be deleted
@@ -170,7 +170,7 @@ void command_interpreter::command_swap() {
 //kill the piece at the given position
 void command_interpreter::command_kill() {
 	if (_algebraic_converter.validate(_args[0])) {
-		unsigned int position = _algebraic_converter(_args[0]);
+		int position = _algebraic_converter(_args[0]);
 		if (board::instance()->delete_piece(position) == false) {
 			interactive_layer::instance()->print_error_message("There is not a piece at the given position");
 		}

@@ -10,7 +10,7 @@ public:
 	queen() = delete;
 	
 	const char* icon() const override;
-	std::vector<unsigned int> possible_movements() const override;
+	std::vector<int> possible_movements() const override;
 };
 
 #endif
