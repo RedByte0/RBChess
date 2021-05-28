@@ -42,8 +42,8 @@ public:
 		return inst;
 	};
 
-	int rows() const {return 9;}
-	int columns() const {return 12;}
+	int rows() const {return 8;}
+	int columns() const {return 8;}
 	bool team() const {return _team;} 
 	int size() const {return rows() * columns();}
 	void add_piece(std::shared_ptr<piece> p) {_pieces.push_back(std::move(p));}

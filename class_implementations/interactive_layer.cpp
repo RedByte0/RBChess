@@ -15,6 +15,4 @@ void interactive_layer::start_game() {
 
 void interactive_layer::quit_game() {
 	_run_game = false;
-	std::cout << "The winer is the " << (board::instance()->team() ? "white" : "black")
-		<< " team !" << std::endl;
 }

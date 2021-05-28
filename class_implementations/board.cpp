@@ -33,6 +33,7 @@ bool board::delete_piece(int position) {
 			if(std::string(_pieces[i]->icon()) == "Ki") {
 				//if the piece is a king the game is over
 				interactive_layer::instance()->quit_game();
+				std::cout << "The " << (!_pieces[i]->team() ? "white" : "black") << " player wins !" << std::endl;
 			}	
 			_pieces.erase(_pieces.begin() + i);
 			return true;

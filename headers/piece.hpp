@@ -35,6 +35,8 @@ public:
 	int position() const {return _position;}
 	bool moved() const {return _moved;}
 
+	void position(const int position) {_position = position;}
+
 	/* moves the piece to a new position. It is important to know
 	 * that this method does not check if the new poisition is 
 	 * a valid one or not, that should be checked before calling this method*/
