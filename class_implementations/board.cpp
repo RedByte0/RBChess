@@ -1,5 +1,6 @@
 #include "../headers/board.hpp"
 #include "../headers/interactive_layer.hpp"
+#include <string>
 
 board::board() {
 	_team = true;
@@ -25,8 +26,14 @@ bool board::there_is_a_piece_at(int position, bool team) const {
 }
 
 bool board::delete_piece(int position) {
+	/* the position parameter is not the position of the piece within the vector,
+	 * it refers to the position of the pieve within the board*/
 	for(std::size_t i = 0; i < _pieces.size(); i++) {
 		if(_pieces[i]->position() == position) {
+			if(std::string(_pieces[i]->icon()) == "Ki") {
+				//if the piece is a king the game is over
+				interactive_layer::instance()->quit_game();
+			}	
 			_pieces.erase(_pieces.begin() + i);
 			return true;
 		}

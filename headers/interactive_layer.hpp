@@ -27,7 +27,7 @@ public:
 	/* this is the main loop of the game
 	 * and it should keep running until _run_game is set to false*/
 	void start_game();
-	void quit_game() {_run_game = false;}
+	void quit_game();
 
 	board_printer* get_board_printer() {return &_board_printer;}
 
