@@ -13,7 +13,7 @@ algebraic_notation::~algebraic_notation() {
 
 /*this method does not check if the given algebraic notation is valid or not*/
 int algebraic_notation::operator()(const std::string& algebraic_notation) const {
-	return ((int)std::tolower(algebraic_notation[0]) - 97) + ((int)algebraic_notation[1] - 49) * board::instance()->rows();	
+	return ((int)std::tolower(algebraic_notation[0]) - 97) + ((int)algebraic_notation[1] - 49) * board::instance()->columns();	
 }
 
 /*cheks if a given string is valid algebraic notation*/
